@@ -4,108 +4,52 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Solicitud de Viaje Empresarial</title>
-  <style>
-    body {
-      font-family: "Segoe UI", Tahoma, sans-serif;
-      color: #333;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-    .card {
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-      width: 90%;
-      max-width: 500px;
-      padding: 30px;
-      box-sizing: border-box;
-    }
-    h2 {
-      text-align: center;
-      color: #0078d4;
-    }
-    label {
-      font-weight: 600;
-      margin-top: 12px;
-      display: block;
-    }
-    input, textarea, select {
-      width: 100%;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      margin-top: 5px;
-      font-size: 14px;
-      box-sizing: border-box;
-    }
-    button {
-      background-color: #0078d4;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 12px;
-      width: 100%;
-      font-size: 16px;
-      cursor: pointer;
-      margin-top: 20px;
-      transition: 0.3s;
-    }
-    button:hover {
-      background-color: #005a9e;
-    }
-    .success, .error {
-      text-align: center;
-      margin-top: 15px;
-      font-weight: bold;
-    }
-    .success { color: green; }
-    .error { color: red; }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="card">
-    <h2>Solicitud de Viaje Empresarial 2</h2>
+    <img src="at_logo.svg" alt="Logo AT">
+    <h2> Solicitud de Viaje Empresarial </h2>
+    
     <form id="viajeForm">
-      <label for="titulo">Título del viaje</label>
-      <input type="text" id="titulo" required>
+      <label for="titulo"> Título del viaje </label>
+      <input type="text" id="titulo" placeholder="Escribi aquí el título de tu viaje" required>
 
-      <label for="fechaInicio">Fecha de inicio</label>
+      <label for="fechaInicio"> Fecha de inicio </label>
       <input type="date" id="fechaInicio" required>
 
-      <label for="fechaFin">Fecha de fin</label>
+      <label for="fechaFin"> Fecha de fin </label>
       <input type="date" id="fechaFin" required>
 
-      <label for="destino">Destino</label>
-      <input type="text" id="destino" required>
+      <label for="destino"> Destino </label>
+      <input type="text" id="destino" placeholder="Ingresa el destino de tu viaje" required>
 
-      <label for="equipoEmpresa">Equipo de empresa</label>
+      <label for="equipoEmpresa"> ¿Vas a usar tu equipo de la empresa? </label>
       <select id="equipoEmpresa" required>
         <option value="">Seleccione...</option>
         <option value="Sí">Sí</option>
         <option value="No">No</option>
       </select>
 
-      <label for="vpn">VPN</label>
+      <label for="vpn"> ¿Necesitas acceso a la VPN de AT? </label>
       <select id="vpn" required>
         <option value="">Seleccione...</option>
         <option value="Sí">Sí</option>
         <option value="No">No</option>
       </select>
 
-      <label for="dispositivoMovil">Dispositivo móvil</label>
+      <label for="dispositivoMovil"> ¿Vas a utilizar algun dispositivo móvil? </label>
       <select id="dispositivoMovil" required>
         <option value="">Seleccione...</option>
         <option value="Sí">Sí</option>
         <option value="No">No</option>
       </select>
 
-      <label for="comentarios">Comentarios</label>
-      <textarea id="comentarios" rows="3"></textarea>
+      <label for="comentarios"> Comentarios </label>
+      <textarea id="comentarios" placeholder="Algun comentario adicional al respecto del viaje" rows="3"></textarea>
 
-      <button type="submit">Enviar solicitud</button>
+      <button type="submit"> Enviar solicitud </button>
       <div id="mensaje"></div>
     </form>
   </div>
@@ -117,7 +61,7 @@
       e.preventDefault();
       const mensaje = document.getElementById("mensaje");
       mensaje.textContent = "Enviando...";
-      mensaje.className = "";
+      mensaje.className = "procensando";
 
       const data = {
         titulo: document.getElementById("titulo").value,
