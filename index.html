@@ -3,85 +3,74 @@
 <head>
   <meta charset="UTF-8">
   <title>Solicitud de Viaje</title>
+  <script src="https://unpkg.com/adaptivecards/dist/adaptivecards.min.js"></script>
 </head>
 <body>
   <h1>Solicitud de Viaje de Negocios</h1>
-  
-  <form id="formSolicitud">
-    <label>Título:
-      <input type="text" id="titulo" required>
-    </label><br><br>
-    
-    <label>Fecha de inicio:
-      <input type="date" id="fechaInicio" required>
-    </label><br><br>
-    
-    <label>Fecha de fin:
-      <input type="date" id="fechaFin" required>
-    </label><br><br>
-    
-    <label>Destino:
-      <input type="text" id="destino" required>
-    </label><br><br>
-    
-    <label>
-      <input type="checkbox" id="equipoEmpresa">
-      Necesito usar equipo de la empresa
-    </label><br>
-    
-    <label>
-      <input type="checkbox" id="vpn">
-      Necesito conectarme a la VPN
-    </label><br>
-    
-    <label>
-      <input type="checkbox" id="dispositivoMovil">
-      Necesito utilizar un dispositivo móvil
-    </label><br><br>
-    
-    <label>Comentarios:
-      <textarea id="comentarios"></textarea>
-    </label><br><br>
-    
-    <button type="submit">Enviar solicitud</button>
-  </form>
+  <div id="cardContainer"></div>
 
   <script>
-    const flujoUrl = "https://default19685a3e7dde400fbbf3c8cdd7e1c9.6e.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/591849a8622c4924a6dd86506b16484e/triggers/manual/paths/invoke?api-version=1"; // Pega la URL de tu flujo HTTP
+    const flujoUrl = "https://default19685a3e7dde400fbbf3c8cdd7e1c9.6e.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/591849a8622c4924a6dd86506b16484e/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=lWQgocZSXXq7MBtu3wfEK0As4Qf62-evZySI_qKWgQM"; // Pega la URL de tu flujo HTTP (GET)
 
-    document.getElementById("formSolicitud").addEventListener("submit", async function(e) {
-      e.preventDefault(); // Evita que el formulario se recargue
-      
-      const datos = {
-        titulo: document.getElementById("titulo").value,
-        fechaInicio: document.getElementById("fechaInicio").value,
-        fechaFin: document.getElementById("fechaFin").value,
-        destino: document.getElementById("destino").value,
-        equipoEmpresa: document.getElementById("equipoEmpresa").checked,
-        vpn: document.getElementById("vpn").checked,
-        dispositivoMovil: document.getElementById("dispositivoMovil").checked,
-        comentarios: document.getElementById("comentarios").value
-      };
+    const card = {
+      "type": "AdaptiveCard",
+      "$schema": "https://adaptivecards.io/schemas/adaptive-card.json",
+      "version": "1.5",
+      "body": [
+        { "type": "TextBlock", "text": "Solicitud de Viaje", "weight": "Bolder", "size": "Medium" },
+        { "type": "Input.Text", "id": "titulo", "placeholder": "Título del viaje" },
+        { "type": "Input.Date", "id": "fechaInicio", "placeholder": "Fecha de inicio" },
+        { "type": "Input.Date", "id": "fechaFin", "placeholder": "Fecha de fin" },
+        { "type": "Input.Text", "id": "destino", "placeholder": "Destino del viaje" },
+        { "type": "Input.Toggle", "title": "Usaré equipo de la empresa", "id": "equipoEmpresa" },
+        { "type": "Input.Toggle", "title": "Necesito VPN", "id": "vpn" },
+        { "type": "Input.Toggle", "title": "Necesito dispositivo móvil", "id": "dispositivoMovil" },
+        { "type": "Input.Text", "id": "comentarios", "placeholder": "Comentarios" }
+      ],
+      "actions": [
+        {
+          "type": "Action.Submit",
+          "title": "Enviar",
+          "data": { "accion": "enviarSolicitud" }
+        }
+      ]
+    };
 
-      try {
-        const response = await fetch(flujoUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(datos)
+    const adaptiveCard = new AdaptiveCards.AdaptiveCard();
+    adaptiveCard.parse(card);
+
+    adaptiveCard.onExecuteAction = async function(action) {
+      if(action.data.accion === "enviarSolicitud") {
+        // Convertir todos los campos a query params
+        const params = new URLSearchParams({
+          titulo: adaptiveCard.getInputValue("titulo"),
+          fechaInicio: adaptiveCard.getInputValue("fechaInicio"),
+          fechaFin: adaptiveCard.getInputValue("fechaFin"),
+          destino: adaptiveCard.getInputValue("destino"),
+          equipoEmpresa: adaptiveCard.getInputValue("equipoEmpresa"),
+          vpn: adaptiveCard.getInputValue("vpn"),
+          dispositivoMovil: adaptiveCard.getInputValue("dispositivoMovil"),
+          comentarios: adaptiveCard.getInputValue("comentarios")
         });
 
-        if (response.ok) {
-          alert("Solicitud enviada correctamente!");
-          document.getElementById("formSolicitud").reset();
-        } else {
-          alert("Error al enviar la solicitud. Revisá la consola para más detalles.");
-          console.error(await response.text());
+        try {
+          const response = await fetch(`${flujoUrl}?${params.toString()}`, {
+            method: "GET"
+          });
+
+          if(response.ok) alert("Solicitud enviada correctamente!");
+          else {
+            alert("Error al enviar la solicitud.");
+            console.error(await response.text());
+          }
+        } catch(err) {
+          alert("Error de conexión al enviar la solicitud.");
+          console.error(err);
         }
-      } catch (error) {
-        alert("Error de conexión al enviar la solicitud.");
-        console.error(error);
       }
-    });
+    };
+
+    document.getElementById("cardContainer").appendChild(adaptiveCard.render());
   </script>
 </body>
 </html>
