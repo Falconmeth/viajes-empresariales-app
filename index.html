@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solicitud de Viaje de Negocios</title>
+  <script src="https://unpkg.com/adaptivecards@3.0.0/dist/adaptivecards.min.js"></script>
+  <style>
+    body {
+      font-family: Segoe UI, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    #cardContainer {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+  <h2>Solicitud de Viaje de Negocios</h2>
+  <div id="cardContainer"></div>
+
+  <script>
+    const card = {
+      "$schema": "https://adaptivecards.io/schemas/adaptive-card.json",
+      "type": "AdaptiveCard",
+      "version": "1.5",
+      "body": [
+        { "type": "TextBlock", "text": "Por favor completá la información de tu viaje:", "wrap": true, "weight": "Bolder", "size": "Medium" },
+        { "type": "Input.Text", "id": "titulo", "placeholder": "Título del viaje" },
+        { "type": "Input.Date", "id": "fechaInicio", "title": "Fecha de inicio" },
+        { "type": "Input.Date", "id": "fechaFin", "title": "Fecha de fin" },
+        { "type": "Input.Text", "id": "destino", "placeholder": "Destino del viaje" },
+        {
+          "type": "Input.ChoiceSet",
+          "id": "usaEquipo",
+          "style": "expanded",
+          "value": "no",
+          "choices": [
+            { "title": "Sí, usaré mi equipo de la empresa", "value": "si" },
+            { "title": "No", "value": "no" }
+          ]
+        },
+        {
+          "type": "Input.ChoiceSet",
+          "id": "usaVPN",
+          "style": "expanded",
+          "value": "no",
+          "choices": [
+            { "title": "Sí, necesitaré conectarme a la VPN", "value": "si" },
+            { "title": "No", "value": "no" }
+          ]
+        },
+        {
+          "type": "Input.ChoiceSet",
+          "id": "usaMovil",
+          "style": "expanded",
+          "value": "no",
+          "choices": [
+            { "title": "Sí, necesitaré usar un dispositivo móvil", "value": "si" },
+            { "title": "No", "value": "no" }
+          ]
+        },
+        { "type": "Input.Text", "id": "comentarios", "isMultiline": true, "placeholder": "Comentarios adicionales" }
+      ],
+      "actions": [
+        {
+          "type": "Action.Submit",
+          "title": "Enviar solicitud",
+          "data": {
+            "accion": "enviarSolicitud"
+          }
+        }
+      ]
+    };
+
+    const adaptiveCard = new AdaptiveCards.AdaptiveCard();
+    adaptiveCard.parse(card);
+    const renderedCard = adaptiveCard.render();
+    document.getElementById("cardContainer").appendChild(renderedCard);
+
+    adaptiveCard.onExecuteAction = async (action) => {
+      const inputs = adaptiveCard.getAllInputs();
+      const data = {};
+      inputs.forEach(input => data[input.id] = input.value);
+
+      alert("Solicitud enviada:\n\n" + JSON.stringify(data, null, 2));
+
+      // 🔹 Aquí vas a reemplazar esta parte por tu endpoint real de Power Automate
+      // await fetch("https://prod-xx.westeurope.logic.azure.com/...tu-flujo...", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify(data)
+      // });
+    };
+  </script>
+</body>
+</html>
