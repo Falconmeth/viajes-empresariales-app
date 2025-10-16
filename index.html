@@ -7,7 +7,6 @@
   <style>
     body {
       font-family: "Segoe UI", Tahoma, sans-serif;
-      background: linear-gradient(135deg, #0078d4, #00a1f1);
       color: #333;
       display: flex;
       justify-content: center;
@@ -68,7 +67,7 @@
 </head>
 <body>
   <div class="card">
-    <h2>Solicitud de Viaje Empresarial 1</h2>
+    <h2>Solicitud de Viaje Empresarial 2</h2>
     <form id="viajeForm">
       <label for="titulo">Título del viaje</label>
       <input type="text" id="titulo" required>
@@ -112,7 +111,7 @@
   </div>
 
   <script>
-    const flujoURL = "TU_URL_DEL_FLUJO_AQUI"; // <-- pegá tu URL de Power Automate aquí
+    const flujoURL = "https://default19685a3e7dde400fbbf3c8cdd7e1c9.6e.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/591849a8622c4924a6dd86506b16484e/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=lWQgocZSXXq7MBtu3wfEK0As4Qf62-evZySI_qKWgQM"; // <-- pegá tu URL de Power Automate aquí
 
     document.getElementById("viajeForm").addEventListener("submit", async (e) => {
       e.preventDefault();
