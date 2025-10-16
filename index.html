@@ -1,155 +1,155 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Solicitud de Viaje de NegociosS</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solicitud de Viaje Empresarial</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f6f8;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      background: linear-gradient(135deg, #0078d4, #00a1f1);
+      color: #333;
       display: flex;
       justify-content: center;
-      padding: 50px 0;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
     }
-
-    .form-container {
-      background-color: #fff;
-      padding: 25px 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-      width: 400px;
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      width: 90%;
+      max-width: 500px;
+      padding: 30px;
+      box-sizing: border-box;
     }
-
-    .form-container h1 {
+    h2 {
       text-align: center;
-      color: #0078D4;
-      margin-bottom: 20px;
+      color: #0078d4;
     }
-
-    .form-group {
-      margin-bottom: 15px;
-    }
-
-    .form-group label {
+    label {
+      font-weight: 600;
+      margin-top: 12px;
       display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
     }
-
-    .form-group input[type="text"],
-    .form-group input[type="date"],
-    .form-group textarea {
-      width: 100%;
-      padding: 8px 10px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 14px;
-    }
-
-    .form-group input[type="checkbox"] {
-      margin-right: 5px;
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 60px;
-    }
-
-    button {
+    input, textarea, select {
       width: 100%;
       padding: 10px;
-      background-color: #00407B;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-top: 5px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #0078d4;
       color: white;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
+      padding: 12px;
+      width: 100%;
       font-size: 16px;
       cursor: pointer;
-      margin-top: 10px;
+      margin-top: 20px;
+      transition: 0.3s;
     }
-
     button:hover {
-      background-color: #00407B;
+      background-color: #005a9e;
     }
+    .success, .error {
+      text-align: center;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    .success { color: green; }
+    .error { color: red; }
   </style>
 </head>
 <body>
-  <div class="form-container">
-    <h1>Solicitud de Viaje</h1>
+  <div class="card">
+    <h2>Solicitud de Viaje Empresarial 1</h2>
     <form id="viajeForm">
-      <div class="form-group">
-        <label for="titulo">Título del viaje</label>
-        <input type="text" id="titulo" name="titulo" required>
-      </div>
+      <label for="titulo">Título del viaje</label>
+      <input type="text" id="titulo" required>
 
-      <div class="form-group">
-        <label for="fechaInicio">Fecha de inicio</label>
-        <input type="date" id="fechaInicio" name="fechaInicio" required>
-      </div>
+      <label for="fechaInicio">Fecha de inicio</label>
+      <input type="date" id="fechaInicio" required>
 
-      <div class="form-group">
-        <label for="fechaFin">Fecha de fin</label>
-        <input type="date" id="fechaFin" name="fechaFin" required>
-      </div>
+      <label for="fechaFin">Fecha de fin</label>
+      <input type="date" id="fechaFin" required>
 
-      <div class="form-group">
-        <label for="destino">Destino del viaje</label>
-        <input type="text" id="destino" name="destino" required>
-      </div>
+      <label for="destino">Destino</label>
+      <input type="text" id="destino" required>
 
-      <div class="form-group">
-        <input type="checkbox" id="equipoEmpresa" name="equipoEmpresa">
-        <label for="equipoEmpresa" style="display:inline;">Usaré equipo de la empresa</label>
-      </div>
+      <label for="equipoEmpresa">Equipo de empresa</label>
+      <select id="equipoEmpresa" required>
+        <option value="">Seleccione...</option>
+        <option value="Sí">Sí</option>
+        <option value="No">No</option>
+      </select>
 
-      <div class="form-group">
-        <input type="checkbox" id="vpn" name="vpn">
-        <label for="vpn" style="display:inline;">Necesito VPN</label>
-      </div>
+      <label for="vpn">VPN</label>
+      <select id="vpn" required>
+        <option value="">Seleccione...</option>
+        <option value="Sí">Sí</option>
+        <option value="No">No</option>
+      </select>
 
-      <div class="form-group">
-        <input type="checkbox" id="dispositivoMovil" name="dispositivoMovil">
-        <label for="dispositivoMovil" style="display:inline;">Necesito dispositivo móvil</label>
-      </div>
+      <label for="dispositivoMovil">Dispositivo móvil</label>
+      <select id="dispositivoMovil" required>
+        <option value="">Seleccione...</option>
+        <option value="Sí">Sí</option>
+        <option value="No">No</option>
+      </select>
 
-      <div class="form-group">
-        <label for="comentarios">Comentarios</label>
-        <textarea id="comentarios" name="comentarios"></textarea>
-      </div>
+      <label for="comentarios">Comentarios</label>
+      <textarea id="comentarios" rows="3"></textarea>
 
-      <button type="submit">Enviar Solicitud</button>
+      <button type="submit">Enviar solicitud</button>
+      <div id="mensaje"></div>
     </form>
   </div>
 
   <script>
-    const flujoUrl = "https://default19685a3e7dde400fbbf3c8cdd7e1c9.6e.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/591849a8622c4924a6dd86506b16484e/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=lWQgocZSXXq7MBtu3wfEK0As4Qf62-evZySI_qKWgQM"; // Reemplaza con tu URL de Power Automate (GET)
+    const flujoURL = "TU_URL_DEL_FLUJO_AQUI"; // <-- pegá tu URL de Power Automate aquí
 
-    document.getElementById("viajeForm").addEventListener("submit", async function(e){
+    document.getElementById("viajeForm").addEventListener("submit", async (e) => {
       e.preventDefault();
+      const mensaje = document.getElementById("mensaje");
+      mensaje.textContent = "Enviando...";
+      mensaje.className = "";
 
-      const params = new URLSearchParams({
+      const data = {
         titulo: document.getElementById("titulo").value,
         fechaInicio: document.getElementById("fechaInicio").value,
         fechaFin: document.getElementById("fechaFin").value,
         destino: document.getElementById("destino").value,
-        equipoEmpresa: document.getElementById("equipoEmpresa").checked,
-        vpn: document.getElementById("vpn").checked,
-        dispositivoMovil: document.getElementById("dispositivoMovil").checked,
+        equipoEmpresa: document.getElementById("equipoEmpresa").value,
+        vpn: document.getElementById("vpn").value,
+        dispositivoMovil: document.getElementById("dispositivoMovil").value,
         comentarios: document.getElementById("comentarios").value
-      });
+      };
 
       try {
-        const response = await fetch(`${flujoUrl}?${params.toString()}`, {
-          method: "GET"
+        const response = await fetch(flujoURL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
         });
 
-        if(response.ok) alert("Solicitud enviada correctamente!");
-        else {
-          alert("Error al enviar la solicitud.");
-          console.error(await response.text());
+        if (response.ok) {
+          mensaje.textContent = "✅ Solicitud enviada correctamente.";
+          mensaje.className = "success";
+          document.getElementById("viajeForm").reset();
+        } else {
+          const errorText = await response.text();
+          mensaje.textContent = `❌ Error al enviar: ${errorText}`;
+          mensaje.className = "error";
         }
-      } catch(err) {
-        alert("Error de conexión al enviar la solicitud.");
-        console.error(err);
+      } catch (error) {
+        mensaje.textContent = `❌ Error de red: ${error.message}`;
+        mensaje.className = "error";
       }
     });
   </script>
