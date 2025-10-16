@@ -1,102 +1,87 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Solicitud de Viaje de Negocios</title>
-  <script src="https://unpkg.com/adaptivecards@3.0.0/dist/adaptivecards.min.js"></script>
-  <style>
-    body {
-      font-family: Segoe UI, sans-serif;
-      margin: 0;
-      padding: 20px;
-      background-color: #f5f5f5;
-    }
-    #cardContainer {
-      background: white;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    }
-  </style>
+  <meta charset="UTF-8">
+  <title>Solicitud de Viaje</title>
 </head>
 <body>
-  <h2>Solicitud de Viaje de Negocios</h2>
-  <div id="cardContainer"></div>
+  <h1>Solicitud de Viaje de Negocios</h1>
+  
+  <form id="formSolicitud">
+    <label>Título:
+      <input type="text" id="titulo" required>
+    </label><br><br>
+    
+    <label>Fecha de inicio:
+      <input type="date" id="fechaInicio" required>
+    </label><br><br>
+    
+    <label>Fecha de fin:
+      <input type="date" id="fechaFin" required>
+    </label><br><br>
+    
+    <label>Destino:
+      <input type="text" id="destino" required>
+    </label><br><br>
+    
+    <label>
+      <input type="checkbox" id="equipoEmpresa">
+      Necesito usar equipo de la empresa
+    </label><br>
+    
+    <label>
+      <input type="checkbox" id="vpn">
+      Necesito conectarme a la VPN
+    </label><br>
+    
+    <label>
+      <input type="checkbox" id="dispositivoMovil">
+      Necesito utilizar un dispositivo móvil
+    </label><br><br>
+    
+    <label>Comentarios:
+      <textarea id="comentarios"></textarea>
+    </label><br><br>
+    
+    <button type="submit">Enviar solicitud</button>
+  </form>
 
   <script>
-    const card = {
-      "$schema": "https://adaptivecards.io/schemas/adaptive-card.json",
-      "type": "AdaptiveCard",
-      "version": "1.5",
-      "body": [
-        { "type": "TextBlock", "text": "Por favor completá la información de tu viaje:", "wrap": true, "weight": "Bolder", "size": "Medium" },
-        { "type": "Input.Text", "id": "titulo", "placeholder": "Título del viaje" },
-        { "type": "Input.Date", "id": "fechaInicio", "title": "Fecha de inicio" },
-        { "type": "Input.Date", "id": "fechaFin", "title": "Fecha de fin" },
-        { "type": "Input.Text", "id": "destino", "placeholder": "Destino del viaje" },
-        {
-          "type": "Input.ChoiceSet",
-          "id": "usaEquipo",
-          "style": "expanded",
-          "value": "no",
-          "choices": [
-            { "title": "Sí, usaré mi equipo de la empresa", "value": "si" },
-            { "title": "No", "value": "no" }
-          ]
-        },
-        {
-          "type": "Input.ChoiceSet",
-          "id": "usaVPN",
-          "style": "expanded",
-          "value": "no",
-          "choices": [
-            { "title": "Sí, necesitaré conectarme a la VPN", "value": "si" },
-            { "title": "No", "value": "no" }
-          ]
-        },
-        {
-          "type": "Input.ChoiceSet",
-          "id": "usaMovil",
-          "style": "expanded",
-          "value": "no",
-          "choices": [
-            { "title": "Sí, necesitaré usar un dispositivo móvil", "value": "si" },
-            { "title": "No", "value": "no" }
-          ]
-        },
-        { "type": "Input.Text", "id": "comentarios", "isMultiline": true, "placeholder": "Comentarios adicionales" }
-      ],
-      "actions": [
-        {
-          "type": "Action.Submit",
-          "title": "Enviar solicitud",
-          "data": {
-            "accion": "enviarSolicitud"
-          }
+    const flujoUrl = "https://default19685a3e7dde400fbbf3c8cdd7e1c9.6e.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/591849a8622c4924a6dd86506b16484e/triggers/manual/paths/invoke?api-version=1"; // Pega la URL de tu flujo HTTP
+
+    document.getElementById("formSolicitud").addEventListener("submit", async function(e) {
+      e.preventDefault(); // Evita que el formulario se recargue
+      
+      const datos = {
+        titulo: document.getElementById("titulo").value,
+        fechaInicio: document.getElementById("fechaInicio").value,
+        fechaFin: document.getElementById("fechaFin").value,
+        destino: document.getElementById("destino").value,
+        equipoEmpresa: document.getElementById("equipoEmpresa").checked,
+        vpn: document.getElementById("vpn").checked,
+        dispositivoMovil: document.getElementById("dispositivoMovil").checked,
+        comentarios: document.getElementById("comentarios").value
+      };
+
+      try {
+        const response = await fetch(flujoUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(datos)
+        });
+
+        if (response.ok) {
+          alert("Solicitud enviada correctamente!");
+          document.getElementById("formSolicitud").reset();
+        } else {
+          alert("Error al enviar la solicitud. Revisá la consola para más detalles.");
+          console.error(await response.text());
         }
-      ]
-    };
-
-    const adaptiveCard = new AdaptiveCards.AdaptiveCard();
-    adaptiveCard.parse(card);
-    const renderedCard = adaptiveCard.render();
-    document.getElementById("cardContainer").appendChild(renderedCard);
-
-    adaptiveCard.onExecuteAction = async (action) => {
-      const inputs = adaptiveCard.getAllInputs();
-      const data = {};
-      inputs.forEach(input => data[input.id] = input.value);
-
-      alert("Solicitud enviada:\n\n" + JSON.stringify(data, null, 2));
-
-      // 🔹 Aquí vas a reemplazar esta parte por tu endpoint real de Power Automate
-      // await fetch("https://prod-xx.westeurope.logic.azure.com/...tu-flujo...", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify(data)
-      // });
-    };
+      } catch (error) {
+        alert("Error de conexión al enviar la solicitud.");
+        console.error(error);
+      }
+    });
   </script>
 </body>
 </html>
